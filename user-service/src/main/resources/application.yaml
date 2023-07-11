@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+token:
+  signing:
+    key: ahtyiY4ky67ovr68w8846Gr67Ggf6HhfnkOPnsodosaOPAwpmwqppmcsa01242dpwsazk
+  expiration: 4320000ms
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
