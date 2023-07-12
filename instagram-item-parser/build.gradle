@@ -37,6 +37,11 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:mongodb'
+    implementation 'org.jsoup:jsoup:1.16.1'
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.10.0'
+    implementation 'org.htmlunit:htmlunit:3.3.0'
+    implementation("io.github.bonigarcia:webdrivermanager:5.4.0")
 }
 
 tasks.named('test') {
