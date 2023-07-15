@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Data
-public class Item {
+public class InstagramPost {
     private String wishlistId;
     private String url;
     private String profileName;

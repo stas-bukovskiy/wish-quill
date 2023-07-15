@@ -1,4 +1,4 @@
-package com.wishquil.instagramitemparser.util;
+package com.wishquil.instagramitemparser.parsers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public final class PriceParser {
 
     private static final String CURRENCY_PATTERN = "(USD|EUR|GBP|UAH|GRN|ГРН|грн|¥|₩|₹|₴)";
-    private static final String NUMBER_PATTERN = "(\\d{1,3}(,\\d{3})*(\\.\\d+)?)";
+    private static final String NUMBER_PATTERN = "(\\d{1,12}(,\\d{3})*(\\.\\d+)?)";
 
     private PriceParser() {
     }

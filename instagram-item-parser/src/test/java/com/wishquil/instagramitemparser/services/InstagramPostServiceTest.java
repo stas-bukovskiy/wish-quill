@@ -1,7 +1,6 @@
 package com.wishquil.instagramitemparser.services;
 
-import com.wishquil.instagramitemparser.models.Item;
-import com.wishquil.instagramitemparser.parsers.InstagramPostParser;
+import com.wishquil.instagramitemparser.models.InstagramPost;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,8 +22,9 @@ class InstagramPostServiceTest {
 
     @BeforeAll
     static void beforeAll() {
+        WebDriverManager.firefoxdriver().setup();
         webDriver = WebDriverManager.firefoxdriver().create();
-        postService = new InstagramPostService(new InstagramPostParser(), webDriver);
+        postService = new InstagramPostService(webDriver);
     }
 
     @AfterAll
@@ -59,7 +59,18 @@ class InstagramPostServiceTest {
                         "https://www.instagram.com/p/CqnzoymNwQP/",
                         "melisa_jewerly",
                         "Наша тендітна новинка\uD83E\uDD0D",
-                        "Наша тендітна новинка\uD83E\uDD0D\n\nКерамічна каблучка, шириною 6 та 2 мм\nНеймовірно стильна та міцна\uD83E\uDD0D\n\nГарно виглядає у комплекті зі срібними прикрасами або ж сама по собі\uD83D\uDE4C\uD83C\uDFFB\n\nУ наявності є 16 та 17 розмір\n\uD83D\uDD25ціна 6 мм -350 грн\n\uD83D\uDD25ціна 2 мм -300 грн\n\nДля замовлення напишіть нам у дірект!",
+                        "Наша тендітна новинка\uD83E\uDD0D\n" +
+                                "\n" +
+                                "Керамічна каблучка, шириною 6 та 2 мм\n" +
+                                "Неймовірно стильна та міцна\uD83E\uDD0D\n" +
+                                "\n" +
+                                "Гарно виглядає у комплекті зі срібними прикрасами або ж сама по собі\uD83D\uDE4C\uD83C\uDFFB\n" +
+                                "\n" +
+                                "У наявності є 16, 17, 18 розмір\n" +
+                                "\uD83D\uDD25ціна 6 мм -350 грн\n" +
+                                "\uD83D\uDD25ціна 2 мм -300 грн\n" +
+                                "\n" +
+                                "Для замовлення напишіть нам у дірект!",
                         BigDecimal.valueOf(350)
                 ),
                 Arguments.of(
@@ -76,13 +87,13 @@ class InstagramPostServiceTest {
     @MethodSource("validPostDateProvider")
     void testParseWithValidData(String postUrl, String expectedProfileName, String expectedTitle,
                                 String expectedDescription, BigDecimal expectedPrice) {
-        Item parsedItem = postService.getItemFromWebPage(postUrl);
+        InstagramPost parsedInstagramPost = postService.getItemFromWebPage(postUrl);
 
-        assertThat(parsedItem.getUrl()).isEqualTo(postUrl);
-        assertThat(parsedItem.getProfileName()).isEqualTo(expectedProfileName);
-        assertThat(parsedItem.getTitle()).isEqualTo(expectedTitle);
-        assertThat(parsedItem.getDescription()).isEqualTo(expectedDescription);
-        assertThat(parsedItem.getPrice()).isEqualTo(expectedPrice);
+        assertThat(parsedInstagramPost.getUrl()).isEqualTo(postUrl);
+        assertThat(parsedInstagramPost.getProfileName()).isEqualTo(expectedProfileName);
+        assertThat(parsedInstagramPost.getTitle()).isEqualTo(expectedTitle);
+        assertThat(parsedInstagramPost.getDescription()).isEqualTo(expectedDescription);
+        assertThat(parsedInstagramPost.getPrice()).isEqualTo(expectedPrice);
     }
 
 

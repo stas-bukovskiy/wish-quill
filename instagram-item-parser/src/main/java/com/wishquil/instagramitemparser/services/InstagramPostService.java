@@ -1,7 +1,7 @@
 package com.wishquil.instagramitemparser.services;
 
 import com.wishquil.instagramitemparser.exceptions.ItemParsingException;
-import com.wishquil.instagramitemparser.models.Item;
+import com.wishquil.instagramitemparser.models.InstagramPost;
 import com.wishquil.instagramitemparser.parsers.InstagramPostParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InstagramPostService implements ItemService {
 
-    private final InstagramPostParser parser;
     private final WebDriver webDriver;
     @Value("${item-service.timeout}")
-    private Duration timeout = Duration.of(7, ChronoUnit.SECONDS);
+    private Duration timeout = Duration.of(3, ChronoUnit.SECONDS);
     @Value("${item-service.attempts}")
     private int attempts = 3;
 
     @Override
-    public Item getItemFromWebPage(String url) {
+    public InstagramPost getItemFromWebPage(String url) {
         webDriver.get(url);
         try {
             return getItemFromWebPageWithTimeout(url);
@@ -36,11 +35,11 @@ public class InstagramPostService implements ItemService {
         }
     }
 
-    private Item getItemFromWebPageWithTimeout(String url) throws InterruptedException {
+    private InstagramPost getItemFromWebPageWithTimeout(String url) throws InterruptedException {
         List<ItemParsingException> exceptions = new LinkedList<>();
         for (int i = attempts; i > 0; i--) {
             try {
-                return parser.parse(webDriver.getPageSource(), url);
+                return InstagramPostParser.parse(webDriver.getPageSource(), url);
             } catch (ItemParsingException e) {
                 exceptions.add(e);
                 log.warn("Parsing error occurred: <{}>; Attempts left: {}", e.getMessage(), i);
@@ -50,7 +49,7 @@ public class InstagramPostService implements ItemService {
         return throwDetailException(exceptions);
     }
 
-    private Item throwDetailException(List<ItemParsingException> exceptions) throws ItemParsingException {
+    private InstagramPost throwDetailException(List<ItemParsingException> exceptions) throws ItemParsingException {
         StringBuilder messageBuilder = new StringBuilder();
         messageBuilder.append(attempts).append(" attempts were made:\n");
         for (int i = 0; i < exceptions.size(); i++)

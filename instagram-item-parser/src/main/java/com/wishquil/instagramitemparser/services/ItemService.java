@@ -1,7 +1,7 @@
 package com.wishquil.instagramitemparser.services;
 
-import com.wishquil.instagramitemparser.models.Item;
+import com.wishquil.instagramitemparser.models.InstagramPost;
 
 public interface ItemService {
-    Item getItemFromWebPage(String url);
+    InstagramPost getItemFromWebPage(String url);
 }

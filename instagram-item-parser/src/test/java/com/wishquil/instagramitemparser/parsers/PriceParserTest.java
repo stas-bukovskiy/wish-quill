@@ -1,4 +1,4 @@
-package com.wishquil.instagramitemparser.util;
+package com.wishquil.instagramitemparser.parsers;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -22,7 +22,8 @@ class PriceParserTest {
                 Arguments.of("The price is 123 grn", BigDecimal.valueOf(123)),
                 Arguments.of("Ціна за товар: 0.99 грн", BigDecimal.valueOf(0.99)),
                 Arguments.of("Ціна в грн 100", BigDecimal.valueOf(100)),
-                Arguments.of("There are not any price", BigDecimal.valueOf(0.00).setScale(2, RoundingMode.HALF_UP))
+                Arguments.of("There are not any price", BigDecimal.valueOf(0.00).setScale(2, RoundingMode.HALF_UP)),
+                Arguments.of("There are some number: 123, but price is 650 uah", BigDecimal.valueOf(650))
         );
     }
 
